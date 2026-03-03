@@ -15,13 +15,18 @@ export default function Signup() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const { ok, status, data } = await register({ username, email, phone, password });
-    setLoading(false);
-    if (ok && status === 201) {
-      navigate('/login', { replace: true });
-      return;
+    try {
+      const { ok, status, data } = await register({ username, email, phone, password });
+      if (ok && status === 201) {
+        navigate('/login', { replace: true });
+        return;
+      }
+      setError(data?.error || 'Registration failed.');
+    } catch {
+      setError('Network or CORS error. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setError(data?.error || 'Registration failed.');
   }
 
   return (

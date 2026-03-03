@@ -13,13 +13,20 @@ export default function Login() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const { ok, status, data } = await login({ username, password });
-    setLoading(false);
-    if (ok && status === 200) {
-      navigate('/dashboard', { replace: true });
-      return;
+    try {
+      const { ok, status, data } = await login({ username, password });
+      if (ok && status === 200) {
+        navigate('/dashboard', { replace: true });
+        return;
+      }
+      setError(
+        status === 401 ? data?.error || 'Invalid credentials.' : data?.error || 'Login failed.'
+      );
+    } catch {
+      setError('Network or CORS error. Please try again.');
+    } finally {
+      setLoading(false);
     }
-    setError(status === 401 ? (data?.error || 'Invalid credentials.') : (data?.error || 'Login failed.'));
   }
 
   return (
