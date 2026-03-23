@@ -21,7 +21,10 @@ export default function Signup() {
         navigate('/login', { replace: true });
         return;
       }
-      setError(data?.error || 'Registration failed.');
+      const base = data?.error || 'Registration failed.';
+      const step = data?.step ? ` (${data.step})` : '';
+      const code = data?.code ? ` [${data.code}]` : '';
+      setError(`${base}${step}${code}`);
     } catch {
       setError('Network or CORS error. Please try again.');
     } finally {

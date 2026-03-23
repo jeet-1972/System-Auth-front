@@ -19,9 +19,13 @@ export default function Login() {
         navigate('/dashboard', { replace: true });
         return;
       }
-      setError(
-        status === 401 ? data?.error || 'Invalid credentials.' : data?.error || 'Login failed.'
-      );
+      const base =
+        status === 401
+          ? data?.error || 'Invalid credentials.'
+          : data?.error || 'Login failed.';
+      const step = data?.step ? ` (${data.step})` : '';
+      const code = data?.code ? ` [${data.code}]` : '';
+      setError(`${base}${step}${code}`);
     } catch {
       setError('Network or CORS error. Please try again.');
     } finally {
