@@ -37,6 +37,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-card">
+      {username && <p className="username">Hello, {username}</p>}
       <h1>Welcome to Sangeet</h1>
       {username && <p className="username">Hello, {username}</p>}
       <button
